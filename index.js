@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -31,6 +31,19 @@ const run = async () => {
         res.send(result);
       } catch (err) {
         res.status(500).send({ message: "Failed to get courses" });
+      }
+    });
+
+    //single course
+    app.get("/course/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const result = await courseCollections.findOne({
+          _id: new ObjectId(id),
+        });
+        res.send(result);
+      } catch (err) {
+        res.status(500).send({ message: "Failed to get course" });
       }
     });
     console.log("You successfully connected to MongoDB!");
