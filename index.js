@@ -46,6 +46,19 @@ const run = async () => {
         res.status(500).send({ message: "Failed to get course" });
       }
     });
+
+    // add course
+    app.post("/course", async (req, res) => {
+      try {
+        const course = req.body;
+        const result = await courseCollections.insertOne(course);
+        console.log("course added successfully");
+        res.send(result);
+      } catch (err) {
+        res.status(500).send({ message: "Failed to add course" });
+      }
+    });
+
     console.log("You successfully connected to MongoDB!");
     return client;
   } catch (err) {
